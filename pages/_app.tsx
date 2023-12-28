@@ -3,6 +3,10 @@ import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import config from '../amplifyconfiguration.json';
+
+import MatchCreateForm from '@/ui-components/MatchCreateForm';
+import TvChannelCreateForm from '@/ui-components/TvChannelCreateForm';
+
 Amplify.configure(config);
 
 export function App({ signOut, user }: WithAuthenticatorProps) {
@@ -10,6 +14,8 @@ export function App({ signOut, user }: WithAuthenticatorProps) {
     <>
       <h1>Hello {user?.username}</h1>
       <button onClick={signOut}>Sign out</button>
+      <h1> Add channel </h1>
+      <div><TvChannelCreateForm /></div>
     </>
   );
 }
