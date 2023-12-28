@@ -8,11 +8,39 @@ specify that owners, authenticated via your Auth resource can "create",
 authenticated via an API key, can only "read" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  TvChannel: a
     .model({
-      content: a.string(),
+      channelId: a.id(),
+      channelName: a.string().required(),
+      channelAppImageName: a.string().required(),
+      channelWebImageName: a.string().required(),
     })
     .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+    Team: a.model({
+      teamId: a.id(),
+      teamName: a.string().required(),
+      teamTags: a.string()
+    })
+    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+    Tournament: a.model({
+      tournamentId: a.id(),
+      tournamentName: a.string().required(),
+      tournamentTags: a.string(),
+      tournamentLink: a.url()
+    })
+    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+    Match: a.model({
+      matchId: a.id(),
+      homeTeam:a.hasOne('Team').required(),
+      awayTeam:a.hasOne('Team').required(),
+      tournament: a.hasOne("Tournament").required(),
+      channel: a.hasOne("TvChannel").required(),
+      date: a.date().required(),
+      time: a.time().required(),
+      isTopGame: a.boolean().default(false)
+    })
+    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
